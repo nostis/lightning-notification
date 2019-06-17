@@ -4,15 +4,16 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
+@Entity
 @Data
 public class Lightning {
-
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @JsonProperty("occurredAt")
@@ -31,5 +32,6 @@ public class Lightning {
     private int currentInAmpere;
 
     @JsonProperty("location")
+    @ElementCollection
     private List<Float> location;
 }
