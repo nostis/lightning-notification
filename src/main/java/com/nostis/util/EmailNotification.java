@@ -10,10 +10,10 @@ public class EmailNotification implements Notification {
     private EmailService emailService;
 
     @Override
-    public void sendNotification(Informations informations) {
+    public void sendNotification(Informations informations, String content) {
         if(informations instanceof EmailInformations){
             try {
-                emailService.sendMail(((EmailInformations) informations).getTo(), ((EmailInformations) informations).getSubject(), ((EmailInformations) informations).getContent());
+                emailService.sendMail(((EmailInformations) informations).getTo(), ((EmailInformations) informations).getSubject(), content);
             } catch (MessagingException e) {
                 e.printStackTrace();
             }
