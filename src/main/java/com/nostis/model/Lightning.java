@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.GregorianCalendar;
+import java.util.Calendar;
 import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -17,7 +17,7 @@ public class Lightning {
     private Long id;
 
     @JsonProperty("occurredAt")
-    private GregorianCalendar occurredAt;
+    private Calendar occurredAt;
 
     @JsonProperty("provider")
     private String provider;
@@ -35,7 +35,7 @@ public class Lightning {
     @ElementCollection
     private List<Float> location;
 
-    public Lightning(Long id, GregorianCalendar occurredAt, String provider, String lightningType, int elevationInKilometers, int currentInAmpere, List<Float> location) {
+    public Lightning(Long id, Calendar occurredAt, String provider, String lightningType, int elevationInKilometers, int currentInAmpere, List<Float> location) {
         this.id = id;
         this.occurredAt = occurredAt;
         this.provider = provider;
