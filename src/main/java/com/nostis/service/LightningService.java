@@ -19,7 +19,7 @@ public class LightningService {
         lightningCrud.saveAll(lightnings);
     }
 
-    public void deleteLightningsOlderThan(GregorianCalendar date){
+    public void deleteLightningsBefore(GregorianCalendar date){
         Iterable<Lightning> iterable = lightningCrud.findAll();
 
         List<Lightning> allLightnings = StreamSupport
@@ -28,7 +28,7 @@ public class LightningService {
 
         List<Lightning> lightningsToDelete = allLightnings
                 .stream()
-                .filter(lightning -> lightning.getOccurredAt().compareTo(date) <= 0)
+                .filter(lightning -> lightning.getOccurredAt().compareTo(date) < 0)
                 .collect(Collectors.toList());
 
         lightningsToDelete.forEach(lightning -> lightningCrud.deleteById(lightning.getId()));
