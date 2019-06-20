@@ -9,23 +9,15 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.*;
 
 @RunWith(SpringRunner.class)
+@SpringBootTest
 public class LightningServiceTest {
-    @TestConfiguration
-    static class LightningServiceTestConfiguration{
-        @Bean
-        public LightningService lightningService(){
-            return new LightningService();
-        }
-    }
-
     @Autowired
     private LightningService lightningService;
 
@@ -46,10 +38,12 @@ public class LightningServiceTest {
         Lightning lightningOne = new Lightning(1L, new GregorianCalendar(2019, Calendar.JULY, 19), "provider", "type", 0, 0, location);
         Lightning lightningTwo = new Lightning(2L, new GregorianCalendar(2019, Calendar.JULY, 18), "provider", "type", 0, 0, location);
         Lightning lightningThree = new Lightning(3L, new GregorianCalendar(2019, Calendar.JULY, 17), "provider", "type", 0, 0, location);
+        Lightning lightningFour = new Lightning(4L, new GregorianCalendar(2019, Calendar.JULY, 16), "provider", "type", 0, 0, location);
 
         lightnings.add(lightningOne);
         lightnings.add(lightningTwo);
         lightnings.add(lightningThree);
+        lightnings.add(lightningFour);
     }
     
     @Test
@@ -71,11 +65,12 @@ public class LightningServiceTest {
     public void whenDeleteLightningsBefore_thenRemainOnlyYounger() {
         Mockito.when(lightningCrud.findAll()).thenReturn(lightnings);
 
-        lightningService.deleteLightningsBefore(new GregorianCalendar(2019, Calendar.JULY, 19));
+        lightningService.deleteLightningsBefore(new GregorianCalendar(2019, Calendar.JULY, 18));
 
         Mockito.verify(lightningCrud, Mockito.times(0)).deleteById(1L);
-        Mockito.verify(lightningCrud, Mockito.times(1)).deleteById(2L);
+        Mockito.verify(lightningCrud, Mockito.times(0)).deleteById(2L);
         Mockito.verify(lightningCrud, Mockito.times(1)).deleteById(3L);
+        Mockito.verify(lightningCrud, Mockito.times(1)).deleteById(4L);
     }
 
 }
