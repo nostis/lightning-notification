@@ -16,33 +16,24 @@ public class Lightning {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @JsonProperty("occurredAt")
-    private Calendar occurredAt;
+    private int count;
 
-    @JsonProperty("provider")
-    private String provider;
+    private float distance;
 
-    @JsonProperty("lightningType")
-    private String lightningType;
+    private String direction;
 
-    @JsonProperty("elevationInKilometers")
-    private int elevationInKilometers;
+    private int interval;
 
-    @JsonProperty("currentInAmpere")
-    private int currentInAmpere;
-
-    @JsonProperty("location")
     @ElementCollection
-    private List<Float> location;
+    private List<Float> area;
 
-    public Lightning(Long id, Calendar occurredAt, String provider, String lightningType, int elevationInKilometers, int currentInAmpere, List<Float> location) {
+    public Lightning(Long id, int count, float distance, String direction, int interval, List<Float> area) {
         this.id = id;
-        this.occurredAt = occurredAt;
-        this.provider = provider;
-        this.lightningType = lightningType;
-        this.elevationInKilometers = elevationInKilometers;
-        this.currentInAmpere = currentInAmpere;
-        this.location = location;
+        this.count = count;
+        this.distance = distance;
+        this.direction = direction;
+        this.interval = interval;
+        this.area = area;
     }
 
     public Lightning(){}
