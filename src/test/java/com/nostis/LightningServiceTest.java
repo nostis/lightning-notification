@@ -7,21 +7,18 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.junit4.SpringRunner;
-
+import org.mockito.junit.MockitoJUnitRunner;
 import java.util.*;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
+@RunWith(MockitoJUnitRunner.class)
 public class LightningServiceTest {
-    @Autowired
+    @InjectMocks
     private LightningService lightningService;
 
-    @MockBean
+    @Mock
     private LightningCrud lightningCrud;
 
     private ArrayList<Float> location;
@@ -48,10 +45,7 @@ public class LightningServiceTest {
     
     @Test
     public void whenSaveLightning_thenSaveLightnings() {
-        Mockito.when(lightningCrud.saveAll(Mockito.anyList())).thenReturn(lightnings);
-
         lightningService.saveLightnings(lightnings);
-
         Mockito.verify(lightningCrud, Mockito.times(1)).saveAll(lightnings);
     }
 

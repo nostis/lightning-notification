@@ -6,21 +6,18 @@ import com.nostis.util.EmailNotification;
 import com.nostis.util.Informations;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.junit4.SpringRunner;
-
+import org.mockito.junit.MockitoJUnitRunner;
 import javax.mail.MessagingException;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
+@RunWith(MockitoJUnitRunner.class)
 public class EmailNotificationTest {
-    @MockBean
+    @Mock
     private EmailService emailService;
 
-    @Autowired
+    @InjectMocks
     private EmailNotification emailNotification;
 
     @Test
