@@ -28,7 +28,7 @@ public class LightningService {
 
         List<Lightning> lightningsToDelete = allLightnings
                 .stream()
-                .filter(lightning -> lightning.getOccurredAt().compareTo(date) < 0)
+                .filter(lightning -> lightning.getCreated().compareTo(date) < 0)
                 .collect(Collectors.toList());
 
         lightningsToDelete.forEach(lightning -> lightningCrud.deleteById(lightning.getId()));

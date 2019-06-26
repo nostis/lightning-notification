@@ -24,15 +24,18 @@ public class Lightning {
 
     private int interval;
 
+    private Calendar created;
+
     @ElementCollection
     private List<Float> area;
 
-    public Lightning(Long id, int count, float distance, String direction, int interval, List<Float> area) {
+    public Lightning(Long id, int count, float distance, String direction, int interval, Calendar created, List<Float> area) {
         this.id = id;
         this.count = count;
         this.distance = distance;
         this.direction = direction;
         this.interval = interval;
+        this.created = created;
         this.area = area;
     }
 
