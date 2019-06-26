@@ -25,22 +25,22 @@ public class LightningServiceIT {
     @Autowired
     private LightningCrud lightningCrud;
 
-    private ArrayList<Float> location;
+    private ArrayList<Float> area;
     private List<Lightning> lightnings;
 
     @Before
     public void setUp() {
-        location = new ArrayList<>();
+        area = new ArrayList<>();
         lightnings = new ArrayList<>();
 
-        location.add(1.23F);
-        location.add(3.45F);
+        area.add(1.23F);
+        area.add(3.45F);
 
         Calendar date = new GregorianCalendar(2019, Calendar.JULY, 19);
 
-        Lightning lightningOne = new Lightning(1L, date, "provider", "type", 0, 0, location);
-        Lightning lightningTwo = new Lightning(2L, date, "provider", "type", 0, 0, location);
-        Lightning lightningThree = new Lightning(3L, date, "provider", "type", 0, 0, location);
+        Lightning lightningOne = new Lightning(1L, 0, 0F, "direction", 0, date, area);
+        Lightning lightningTwo = new Lightning(2L, 0, 0F, "direction", 0, date, area);
+        Lightning lightningThree = new Lightning(3L, 0, 0F, "direction", 0, date, area);
 
         lightnings.add(lightningOne);
         lightnings.add(lightningTwo);
