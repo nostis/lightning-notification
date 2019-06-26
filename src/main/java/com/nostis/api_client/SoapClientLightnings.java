@@ -63,13 +63,9 @@ public class SoapClientLightnings {
             // Send SOAP Message to SOAP Server
             SOAPMessage soapResponse = soapConnection.call(createSOAPRequest(soapAction, y, x, radius, apiKey), soapEndpointUrl);
 
-            //soapResponse.writeTo(System.out);
-
             soapConnection.close();
+
             return soapResponse;
-            //return soapResponse.getSOAPBody().getElementsByTagName("return");
-
-
         } catch (Exception e) {
             System.err.println("\nError occurred while sending SOAP Request to Server!\nMake sure you have the correct endpoint URL and SOAPAction!\n");
             e.printStackTrace();
