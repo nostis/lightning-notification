@@ -1,7 +1,7 @@
 package com.nostis.service;
 
-import com.nostis.dao.ClientCrud;
-import com.nostis.model.Client;
+import com.nostis.dao.ClientAPICrud;
+import com.nostis.model.ClientAPI;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -9,24 +9,24 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class ClientService {
+public class ClientAPIService {
     @Autowired
-    private ClientCrud clientCrud;
+    private ClientAPICrud clientAPICrud;
 
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public void addClient(String name, String token) {
         String encoded = bCryptPasswordEncoder.encode(token);
-        clientCrud.save(new Client(name, encoded));
+        clientAPICrud.save(new ClientAPI(name, encoded));
     }
 
     public void deleteClient(String name) {
-        clientCrud.deleteById(clientCrud.findByName(name).get().getId());
+        clientAPICrud.deleteById(clientAPICrud.findByName(name).get().getId());
     }
 
     public boolean areCredentialsCorrect(String name, String token) {
-        Optional<Client> client = clientCrud.findByName(name);
+        Optional<ClientAPI> client = clientAPICrud.findByName(name);
 
         return client.filter(value -> bCryptPasswordEncoder.matches(token, value.getToken())).isPresent();
     }
