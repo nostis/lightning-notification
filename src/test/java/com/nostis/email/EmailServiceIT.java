@@ -1,4 +1,4 @@
-package com.nostis;
+package com.nostis.email;
 
 import com.icegreen.greenmail.junit.GreenMailRule;
 import com.icegreen.greenmail.util.ServerSetupTest;

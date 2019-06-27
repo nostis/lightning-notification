@@ -1,4 +1,4 @@
-package com.nostis;
+package com.nostis.client;
 
 import com.nostis.dao.ClientCrud;
 import com.nostis.model.Client;

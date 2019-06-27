@@ -1,4 +1,4 @@
-package com.nostis;
+package com.nostis.email;
 
 import com.nostis.service.EmailService;
 import com.nostis.util.EmailInformations;

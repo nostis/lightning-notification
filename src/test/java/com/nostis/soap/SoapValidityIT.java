@@ -1,6 +1,6 @@
-package com.nostis;
+package com.nostis.soap;
 
-import com.nostis.api_client.SoapClientValidity;
+import com.nostis.soap_api_client.SoapClientValidity;
 import org.junit.Assert;
 import org.junit.Test;
 

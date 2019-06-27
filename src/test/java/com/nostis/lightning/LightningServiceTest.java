@@ -1,4 +1,4 @@
-package com.nostis;
+package com.nostis.lightning;
 
 import com.nostis.dao.LightningCrud;
 import com.nostis.model.Lightning;

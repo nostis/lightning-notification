@@ -1,4 +1,4 @@
-package com.nostis;
+package com.nostis.lightning;
 
 import com.nostis.service.LightningService;
 import com.nostis.task.NotificationSender;
