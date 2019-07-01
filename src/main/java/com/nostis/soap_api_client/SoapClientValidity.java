@@ -1,4 +1,4 @@
-package com.nostis.api_client;
+package com.nostis.soap_api_client;
 
 import org.w3c.dom.NodeList;
 

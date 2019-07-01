@@ -1,4 +1,4 @@
-package com.nostis.api_client;
+package com.nostis.soap_api_client;
 
 import javax.xml.soap.*;
 import java.util.HashMap;

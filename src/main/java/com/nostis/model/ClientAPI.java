@@ -16,17 +16,22 @@ public class ClientAPI {
 
     private String name;
 
-    private String token;
+    private String password;
 
-    public ClientAPI(Long id, String name, String token) {
+    private boolean isAdmin;
+
+
+    public ClientAPI(Long id, String name, String password, boolean isAdmin) {
         this.id = id;
         this.name = name;
-        this.token = token;
+        this.password = password;
+        this.isAdmin = isAdmin;
     }
 
-    public ClientAPI(String name, String token) {
+    public ClientAPI(String name, String password, boolean isAdmin) {
         this.name = name;
-        this.token = token;
+        this.password = password;
+        this.isAdmin = isAdmin;
     }
 
     public ClientAPI() {}
