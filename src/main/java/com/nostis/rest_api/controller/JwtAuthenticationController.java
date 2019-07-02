@@ -1,5 +1,7 @@
 package com.nostis.rest_api.controller;
 
+import com.nostis.exception.AccessDeniedException;
+import com.nostis.model.ClientAPI;
 import com.nostis.model.SimpleUser;
 import com.nostis.security.JwtResponse;
 import com.nostis.security.JwtTokenUtil;
@@ -13,6 +15,10 @@ import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
+
+import java.sql.Timestamp;
+import java.util.Date;
 
 @RestController
 @CrossOrigin
@@ -27,29 +33,28 @@ public class JwtAuthenticationController {
     private JwtUserDetailsService userDetailsService;
 
     @PostMapping("/authenticate")
-    public ResponseEntity<?> createAuthenticationToken(@RequestBody SimpleUser authenticationRequest) throws Exception {
+    public JwtResponse createAuthenticationToken(@RequestBody SimpleUser authenticationRequest) throws Exception {
         authenticate(authenticationRequest.getName(), authenticationRequest.getPassword());
 
         final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getName());
 
         final String token = jwtTokenUtil.generateToken(userDetails);
 
-        return ResponseEntity.ok(new JwtResponse(token));
+        return new JwtResponse(token);
     }
 
 
     @PostMapping("/register")
-    public ResponseEntity<?> saveUser(@RequestBody SimpleUser simpleUser, @RequestHeader String authorization) throws Exception {
-        System.out.println(authorization);
+    public ClientAPI saveUser(@RequestBody SimpleUser simpleUser, @RequestHeader String authorization) {
 
         String username = jwtTokenUtil.getUsernameFromToken(authorization.substring(7));
         UserDetails user =  userDetailsService.loadUserByUsername(username);
-        if(userDetailsService.isUserAdmin(username)){
-            return ResponseEntity.ok(userDetailsService.save(simpleUser));
+        if(!userDetailsService.isUserAdmin(username)){
+            throw new AccessDeniedException(new Timestamp(new Date().getTime()), "You are not allowed to add new api clients", "/register");
+            //throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Youa ");
         }
-        else{
-            return ResponseEntity.ok(HttpStatus.FORBIDDEN);
-        }
+
+        return userDetailsService.save(simpleUser);
 
     }
 
@@ -61,7 +66,7 @@ public class JwtAuthenticationController {
             throw new Exception("USER_DISABLED", e);
         }
         catch (BadCredentialsException e) {
-            throw new Exception("INVALID_CREDENTIALS", e);
+            throw new com.nostis.exception.BadCredentialsException("Bad credentials");
         }
     }
 }
