@@ -7,4 +7,6 @@ public class SimpleUser {
     private String name;
 
     private String password;
+
+    private boolean admin;
 }

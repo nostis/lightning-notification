@@ -1,6 +1,7 @@
 package com.nostis.service;
 
 import com.nostis.dao.ClientAPICrud;
+import com.nostis.exception.ClientAlreadyExist;
 import com.nostis.model.ClientAPI;
 import com.nostis.model.SimpleUser;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,9 +46,14 @@ public class JwtUserDetailsService implements UserDetailsService {
     }
 
     public ClientAPI save(SimpleUser simpleUser){
+        if(clientAPICrud.findByName(simpleUser.getName()).isPresent()){
+            throw new ClientAlreadyExist("Client with name: '" + simpleUser.getName() + "' already exist");
+        }
+
         ClientAPI clientAPI = new ClientAPI();
 
         clientAPI.setName(simpleUser.getName());
+        clientAPI.setAdmin(simpleUser.isAdmin());
         clientAPI.setPassword(bCryptPasswordEncoder.encode(simpleUser.getPassword()));
 
         return clientAPICrud.save(clientAPI);

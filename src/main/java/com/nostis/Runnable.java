@@ -18,7 +18,7 @@ public class Runnable {
     public CommandLineRunner demoData(ClientAPIService clientAPIService) {
         return args -> {
           clientAPIService.addClient("client", "password", true);
-            clientAPIService.addClient("client2", "password", false);
+          clientAPIService.addClient("client2", "password", false);
         };
     }
 }
