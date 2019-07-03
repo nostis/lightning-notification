@@ -47,7 +47,7 @@ public class JwtUserDetailsService implements UserDetailsService {
 
     public ClientAPI save(SimpleUser simpleUser){
         if(clientAPICrud.findByName(simpleUser.getName()).isPresent()){
-            throw new ClientAlreadyExist("Client with name: '" + simpleUser.getName() + "' already exist");
+            throw new ClientAlreadyExist("Client with name: '" + simpleUser.getName() + "' already exists");
         }
 
         ClientAPI clientAPI = new ClientAPI();
