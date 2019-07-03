@@ -74,8 +74,8 @@ public class JwtAuthenticationControllerTest {
     @Test
     public void whenAuthenticateWithBadCredentials_thenGetForbidden() throws Exception {
         SimpleUser client = new SimpleUser();
-        client.setName("different");
-        client.setPassword("different");
+        client.setName("bad");
+        client.setPassword("bad");
 
         String bodyJson = mapObjectToJson(client);
 
@@ -173,14 +173,28 @@ public class JwtAuthenticationControllerTest {
     public void whenDeleteClientWhoIsNotExist_thenGetNotFound() throws Exception {
         String token = getTokenForUser("client");
 
-        String returned = mockMvc.perform(delete("/delete/{username}", "notexist")
+        String error = mockMvc.perform(delete("/delete/{username}", "notexist")
                 .contentType(MediaType.APPLICATION_JSON)
                 .header("Authorization", "Bearer " + token))
                 .andDo(print())
                 .andExpect(status().isNotFound())
                 .andReturn().getResolvedException().getMessage();
 
-        Assert.assertTrue(returned.contains("Client with name: 'notexist' not exists"));
+        Assert.assertTrue(error.contains("Client with name: 'notexist' not exists"));
+    }
+
+    @Test
+    public void whenDeleteRequestingUser_thenGetForbidden() throws Exception {
+        String token = getTokenForUser("client");
+
+        String error = mockMvc.perform(delete("/delete/{username}", "client")
+                .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", "Bearer " + token))
+                .andDo(print())
+                .andExpect(status().isForbidden())
+                .andReturn().getResolvedException().getMessage();
+
+        Assert.assertTrue(error.contains("You can not delete yourself"));
     }
 
     private String mapObjectToJson(Object object) throws JsonProcessingException {
