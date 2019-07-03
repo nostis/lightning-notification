@@ -35,6 +35,8 @@ import org.springframework.test.web.servlet.MockMvc;
 @ActiveProfiles("h2db")
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 public class JwtAuthenticationControllerTest {
+    private static final String PRE_URL = "/api";
+
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
 
@@ -46,7 +48,6 @@ public class JwtAuthenticationControllerTest {
 
     @Autowired
     private ClientAPIService clientAPIService;
-
 
     @Before
     public void setUp() {
@@ -62,7 +63,7 @@ public class JwtAuthenticationControllerTest {
 
         String bodyJson = mapObjectToJson(client);
 
-        mockMvc.perform(post("/authenticate")
+        mockMvc.perform(post(PRE_URL + "/authenticate")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(bodyJson))
                 .andDo(print())
@@ -79,7 +80,7 @@ public class JwtAuthenticationControllerTest {
 
         String bodyJson = mapObjectToJson(client);
 
-        String error = mockMvc.perform(post("/authenticate")
+        String error = mockMvc.perform(post(PRE_URL + "/authenticate")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(bodyJson))
                 .andDo(print())
@@ -100,7 +101,7 @@ public class JwtAuthenticationControllerTest {
 
         String bodyJson = mapObjectToJson(userToRegister);
 
-        mockMvc.perform(post("/register")
+        mockMvc.perform(post(PRE_URL + "/register")
                 .contentType(MediaType.APPLICATION_JSON)
                 .header("Authorization", "Bearer " + token)
                 .content(bodyJson))
@@ -122,7 +123,7 @@ public class JwtAuthenticationControllerTest {
 
         String bodyJson = mapObjectToJson(userToRegister);
 
-        String error = mockMvc.perform(post("/register")
+        String error = mockMvc.perform(post(PRE_URL + "/register")
                 .contentType(MediaType.APPLICATION_JSON)
                 .header("Authorization", "Bearer " + token)
                 .content(bodyJson))
@@ -144,7 +145,7 @@ public class JwtAuthenticationControllerTest {
 
         String bodyJson = mapObjectToJson(userToRegister);
 
-        String error = mockMvc.perform(post("/register")
+        String error = mockMvc.perform(post(PRE_URL + "/register")
                 .contentType(MediaType.APPLICATION_JSON)
                 .header("Authorization", "Bearer " + token)
                 .content(bodyJson))
@@ -159,7 +160,7 @@ public class JwtAuthenticationControllerTest {
     public void whenDeleteClient_thenDeleteAndReturnUsername() throws Exception {
         String token = getTokenForUser("client");
 
-        String returned = mockMvc.perform(delete("/delete/{username}", "client2")
+        String returned = mockMvc.perform(delete(PRE_URL + "/delete/{username}", "client2")
                 .contentType(MediaType.APPLICATION_JSON)
                 .header("Authorization", "Bearer " + token))
                 .andDo(print())
@@ -173,7 +174,7 @@ public class JwtAuthenticationControllerTest {
     public void whenDeleteClientWhoIsNotExist_thenGetNotFound() throws Exception {
         String token = getTokenForUser("client");
 
-        String error = mockMvc.perform(delete("/delete/{username}", "notexist")
+        String error = mockMvc.perform(delete(PRE_URL + "/delete/{username}", "notexist")
                 .contentType(MediaType.APPLICATION_JSON)
                 .header("Authorization", "Bearer " + token))
                 .andDo(print())
@@ -187,7 +188,7 @@ public class JwtAuthenticationControllerTest {
     public void whenDeleteRequestingUser_thenGetForbidden() throws Exception {
         String token = getTokenForUser("client");
 
-        String error = mockMvc.perform(delete("/delete/{username}", "client")
+        String error = mockMvc.perform(delete(PRE_URL + "/delete/{username}", "client")
                 .contentType(MediaType.APPLICATION_JSON)
                 .header("Authorization", "Bearer " + token))
                 .andDo(print())
