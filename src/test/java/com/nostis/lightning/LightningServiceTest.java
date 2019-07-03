@@ -1,8 +1,8 @@
 package com.nostis.lightning;
 
-import com.nostis.dao.LightningCrud;
-import com.nostis.model.Lightning;
-import com.nostis.service.LightningService;
+import com.nostis.lightning_core.dao.LightningCrud;
+import com.nostis.lightning_core.model.Lightning;
+import com.nostis.lightning_core.service.LightningService;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

@@ -1,5 +1,6 @@
 package com.nostis.security;
 
+import com.nostis.rest_api.util.JwtTokenUtil;
 import io.jsonwebtoken.Claims;
 import org.junit.Assert;
 import org.junit.Before;

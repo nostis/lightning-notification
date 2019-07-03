@@ -1,6 +1,6 @@
 package com.nostis.soap;
 
-import com.nostis.soap_api_client.SoapClientLightnings;
+import com.nostis.lightning_core.soap_api_client.SoapClientLightnings;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -9,7 +9,7 @@ import java.util.Map;
 public class SoapLightningsIT {
     @Test
     public void whenFindLightning_thenReturnInformationsAboutLightning() {
-        Map<String, String> informations = SoapClientLightnings.findLightning(52.24F, 16.9F, 50, "api_key");
+        Map<String, String> informations = SoapClientLightnings.findLightning(52.24F, 16.9F, 50, "<key>");
 
         informations.forEach((v, k) -> System.out.println(v + " " + k));
 

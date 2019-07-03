@@ -10,10 +10,12 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.nostis.model.SimpleUser;
-import com.nostis.security.JwtTokenUtil;
-import com.nostis.service.JwtUserDetailsService;
+import com.nostis.rest_api.model.SimpleUser;
+import com.nostis.rest_api.service.ClientAPIService;
+import com.nostis.rest_api.util.JwtTokenUtil;
+import com.nostis.rest_api.service.JwtUserDetailsService;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,12 +23,16 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
+@ActiveProfiles("h2db")
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 public class JwtAuthenticationControllerTest {
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
@@ -36,6 +42,16 @@ public class JwtAuthenticationControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
+
+    @Autowired
+    private ClientAPIService clientAPIService;
+
+
+    @Before
+    public void setUp() {
+        clientAPIService.addClient("client", "password", true);
+        clientAPIService.addClient("client2", "password", false);
+    }
 
     @Test
     public void whenAuthenticate_thenGetTokenAndExpirationDate() throws Exception {

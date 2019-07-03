@@ -1,9 +1,9 @@
 package com.nostis.lightning;
 
-import com.nostis.service.LightningService;
-import com.nostis.task.NotificationSender;
-import com.nostis.util.EmailNotification;
-import com.nostis.util.Informations;
+import com.nostis.lightning_core.service.LightningService;
+import com.nostis.lightning_core.task.NotificationSender;
+import com.nostis.lightning_core.util.EmailNotification;
+import com.nostis.lightning_core.util.Informations;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;

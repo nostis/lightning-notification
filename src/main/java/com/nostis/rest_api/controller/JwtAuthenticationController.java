@@ -1,18 +1,18 @@
 package com.nostis.rest_api.controller;
 
-import com.nostis.exception.AccessDeniedException;
-import com.nostis.model.ClientAPI;
-import com.nostis.model.SimpleUser;
-import com.nostis.security.JwtResponse;
-import com.nostis.security.JwtTokenUtil;
-import com.nostis.service.JwtUserDetailsService;
+import com.nostis.rest_api.exception.AccessDeniedException;
+import com.nostis.rest_api.model.ClientAPI;
+import com.nostis.rest_api.model.SimpleUser;
+import com.nostis.rest_api.model.JwtResponse;
+import com.nostis.rest_api.util.JwtTokenUtil;
+import com.nostis.rest_api.service.JwtUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.*;;import java.util.Date;
+import org.springframework.web.bind.annotation.*;;
 
 @RestController
 @CrossOrigin
@@ -58,7 +58,7 @@ public class JwtAuthenticationController {
             throw new Exception("User disabled", e);
         }
         catch (BadCredentialsException e) {
-            throw new com.nostis.exception.BadCredentialsException("Bad credentials");
+            throw new com.nostis.rest_api.exception.BadCredentialsException("Bad credentials");
         }
     }
 }
