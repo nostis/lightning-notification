@@ -40,14 +40,27 @@ public class JwtAuthenticationController {
 
     @PostMapping("/register")
     public ClientAPI saveUser(@RequestBody SimpleUser simpleUser, @RequestHeader String authorization) {
-
         String username = jwtTokenUtil.getUsernameFromToken(authorization.substring(7));
-        UserDetails user =  userDetailsService.loadUserByUsername(username);
+
         if(!userDetailsService.isUserAdmin(username)){
             throw new AccessDeniedException("You are not allowed to add new api clients");
         }
 
         return userDetailsService.save(simpleUser);
+    }
+
+    @DeleteMapping("/delete/{username}")
+    public String removeClient(@PathVariable("username") String userNameToDelete, @RequestHeader String authorization) {
+        String username = jwtTokenUtil.getUsernameFromToken(authorization.substring(7));
+
+        if(!userDetailsService.isUserAdmin(username)){
+            throw new AccessDeniedException("You are not allowed to remove api clients");
+        }
+
+        SimpleUser clientToDelete = new SimpleUser();
+        clientToDelete.setName(userNameToDelete);
+
+        return userDetailsService.delete(clientToDelete);
     }
 
     private void authenticate(String username, String password) throws Exception {

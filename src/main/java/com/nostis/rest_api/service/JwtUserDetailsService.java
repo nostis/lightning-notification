@@ -2,6 +2,7 @@ package com.nostis.rest_api.service;
 
 import com.nostis.rest_api.dao.ClientAPICrud;
 import com.nostis.rest_api.exception.ClientAlreadyExist;
+import com.nostis.rest_api.exception.ClientNotExist;
 import com.nostis.rest_api.model.ClientAPI;
 import com.nostis.rest_api.model.SimpleUser;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +46,7 @@ public class JwtUserDetailsService implements UserDetailsService {
         }
     }
 
-    public ClientAPI save(SimpleUser simpleUser){
+    public ClientAPI save(SimpleUser simpleUser) {
         if(clientAPICrud.findByName(simpleUser.getName()).isPresent()){
             throw new ClientAlreadyExist("Client with name: '" + simpleUser.getName() + "' already exists");
         }
@@ -57,5 +58,15 @@ public class JwtUserDetailsService implements UserDetailsService {
         clientAPI.setPassword(bCryptPasswordEncoder.encode(simpleUser.getPassword()));
 
         return clientAPICrud.save(clientAPI);
+    }
+
+    public String delete(SimpleUser simpleUser) {
+        if(clientAPICrud.findByName(simpleUser.getName()).isEmpty()){
+            throw new ClientNotExist("Client with name: '" + simpleUser.getName() + "' not exists");
+        }
+
+        clientAPICrud.delete(clientAPICrud.findByName(simpleUser.getName()).get());
+
+        return simpleUser.getName();
     }
 }

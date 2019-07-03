@@ -1,6 +1,7 @@
 package com.nostis.rest_api_controller;
 
 import static org.hamcrest.Matchers.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -152,6 +153,34 @@ public class JwtAuthenticationControllerTest {
                 .andReturn().getResolvedException().getMessage();
 
         Assert.assertTrue(error.contains("You are not allowed to add new api clients"));
+    }
+
+    @Test
+    public void whenDeleteClient_thenDeleteAndReturnUsername() throws Exception {
+        String token = getTokenForUser("client");
+
+        String returned = mockMvc.perform(delete("/delete/{username}", "client2")
+                .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", "Bearer " + token))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+
+        Assert.assertTrue(returned.contains("client2"));
+    }
+
+    @Test
+    public void whenDeleteClientWhoIsNotExist_thenGetNotFound() throws Exception {
+        String token = getTokenForUser("client");
+
+        String returned = mockMvc.perform(delete("/delete/{username}", "notexist")
+                .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", "Bearer " + token))
+                .andDo(print())
+                .andExpect(status().isNotFound())
+                .andReturn().getResolvedException().getMessage();
+
+        Assert.assertTrue(returned.contains("Client with name: 'notexist' not exists"));
     }
 
     private String mapObjectToJson(Object object) throws JsonProcessingException {
