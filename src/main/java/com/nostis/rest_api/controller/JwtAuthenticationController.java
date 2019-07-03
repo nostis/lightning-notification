@@ -14,7 +14,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.*;;
+import org.springframework.web.bind.annotation.*;;import java.util.Date;
 
 @RestController
 @CrossOrigin
@@ -35,8 +35,9 @@ public class JwtAuthenticationController {
         final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getName());
 
         final String token = jwtTokenUtil.generateToken(userDetails);
+        final Long expiration = jwtTokenUtil.getExpirationDateFromToken(token).getTime() / 100;
 
-        return new JwtResponse(token);
+        return new JwtResponse(token, expiration.toString());
     }
 
     @PostMapping("/register")
