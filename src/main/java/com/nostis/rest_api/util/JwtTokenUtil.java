@@ -32,6 +32,9 @@ public class JwtTokenUtil {
     }
 
     private Claims getAllClaimsFromToken(String token) {
+        if(token.contains("Bearer ")){
+            token = token.substring(7);
+        }
         return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
     }
 
@@ -52,7 +55,7 @@ public class JwtTokenUtil {
     }
 
     public Boolean validateToken(String token, UserDetails userDetails) {
-        final String username = getUsernameFromToken(token);
+        final String username = getUsernameFromToken(token.substring(7));
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
 }

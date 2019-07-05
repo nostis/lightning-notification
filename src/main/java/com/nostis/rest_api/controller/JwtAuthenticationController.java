@@ -11,7 +11,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
@@ -54,7 +53,6 @@ public class JwtAuthenticationController {
     @DeleteMapping("/delete/{username}")
     public String removeClient(@PathVariable("username") String userNameToDelete, @RequestHeader String authorization) {
         String username = jwtTokenUtil.getUsernameFromToken(authorization.substring(7));
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         if(!userDetailsService.isUserAdmin(username)){
             throw new AccessDeniedException("You are not allowed to remove api clients");
