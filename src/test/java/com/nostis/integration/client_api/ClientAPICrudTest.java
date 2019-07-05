@@ -1,4 +1,4 @@
-package com.nostis.client_api;
+package com.nostis.integration.client_api;
 
 import com.nostis.rest_api.dao.ClientAPICrud;
 import com.nostis.rest_api.model.ClientAPI;
@@ -16,7 +16,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 @ActiveProfiles("h2db")
 @RunWith(SpringRunner.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
-public class ClientAPICrudIT {
+public class ClientAPICrudTest {
     @Autowired
     private ClientAPICrud clientAPICrud;
 

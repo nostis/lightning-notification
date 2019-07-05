@@ -1,4 +1,4 @@
-package com.nostis;
+package com.nostis.integration.lightning;
 
 import com.nostis.lightning_core.dao.LightningCrud;
 import com.nostis.lightning_core.model.Lightning;
@@ -19,9 +19,9 @@ import java.util.stream.StreamSupport;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@ActiveProfiles("lightning")
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-public class LightningServiceIT {
+@ActiveProfiles("h2db")
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
+public class LightningServiceTest {
     @Autowired
     private LightningCrud lightningCrud;
 

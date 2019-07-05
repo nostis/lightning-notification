@@ -1,4 +1,4 @@
-package com.nostis.client_api;
+package com.nostis.integration.client_api;
 
 import com.nostis.rest_api.dao.ClientAPICrud;
 import com.nostis.rest_api.model.ClientAPI;
@@ -18,7 +18,7 @@ import java.util.stream.StreamSupport;
 @SpringBootTest
 @ActiveProfiles("h2db")
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
-public class ClientAPIServiceIT {
+public class ClientAPIServiceTest {
     @Autowired
     private ClientAPICrud clientAPICrud;
 

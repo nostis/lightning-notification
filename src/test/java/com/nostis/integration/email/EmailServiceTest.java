@@ -1,4 +1,4 @@
-package com.nostis.email;
+package com.nostis.integration.email;
 
 import com.icegreen.greenmail.junit.GreenMailRule;
 import com.icegreen.greenmail.util.ServerSetupTest;
@@ -24,7 +24,7 @@ import java.io.IOException;
 @SpringBootTest
 @ActiveProfiles({"email", "h2db"})
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
-public class EmailServiceIT {
+public class EmailServiceTest {
     @Rule
     public final GreenMailRule greenMail = new GreenMailRule(ServerSetupTest.SMTP);
 

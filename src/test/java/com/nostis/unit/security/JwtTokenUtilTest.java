@@ -1,4 +1,4 @@
-package com.nostis.security;
+package com.nostis.unit.security;
 
 import com.nostis.rest_api.util.JwtTokenUtil;
 import io.jsonwebtoken.Claims;

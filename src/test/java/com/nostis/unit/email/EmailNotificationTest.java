@@ -1,4 +1,4 @@
-package com.nostis.email;
+package com.nostis.unit.email;
 
 import com.nostis.lightning_core.service.EmailService;
 import com.nostis.lightning_core.util.EmailInformations;
