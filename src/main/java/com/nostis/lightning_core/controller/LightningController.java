@@ -24,11 +24,17 @@ public class LightningController {
     public Customer addCustomer(@RequestHeader String authorization, @RequestBody Customer customer) {
         String username = jwtTokenUtil.getUsernameFromToken(authorization.substring(7));
 
+        jwtTokenUtil.validateToken(authorization, jwtUserDetailsService.loadUserByUsername(username));
+
         return customerService.addCustomer(customer.getEmail(), customer.getLocation());
     }
 
     @DeleteMapping("/removecustomer/{email}")
     public String removeCustomer(@RequestHeader String authorization, @PathVariable("email") String email) {
+        String username = jwtTokenUtil.getUsernameFromToken(authorization.substring(7));
+
+        jwtTokenUtil.validateToken(authorization, jwtUserDetailsService.loadUserByUsername(username));
+
         return customerService.removeCustomer(email);
     }
 }
