@@ -4,11 +4,14 @@ import com.nostis.lightning_core.dao.CustomerCrud;
 import com.nostis.lightning_core.exception.CustomerAlreadyExist;
 import com.nostis.lightning_core.exception.CustomerNotExist;
 import com.nostis.lightning_core.model.Customer;
+import com.nostis.lightning_core.model.Lightning;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Service
 public class CustomerService {
@@ -38,5 +41,11 @@ public class CustomerService {
         }
 
         return email;
+    }
+
+    public List<Customer> getAllCustomers() {
+        return StreamSupport
+                .stream(customerCrud.findAll().spliterator(), false)
+                .collect(Collectors.toList());
     }
 }
