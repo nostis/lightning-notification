@@ -37,4 +37,12 @@ public class FetchData {
 
         lightningService.saveLightnings(lightningsToAdd);
     }
+
+    @Scheduled(fixedDelay = 60000)
+    public void removeUnnecessaryLightnings() {
+        Calendar actualMinusThirtyMin = Calendar.getInstance();
+        actualMinusThirtyMin.set(Calendar.MINUTE, actualMinusThirtyMin.get(Calendar.MINUTE) - 30);
+
+        lightningService.deleteLightningsBefore(actualMinusThirtyMin);
+    }
 }

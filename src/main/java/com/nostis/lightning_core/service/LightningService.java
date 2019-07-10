@@ -5,6 +5,7 @@ import com.nostis.lightning_core.model.Lightning;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,7 +20,7 @@ public class LightningService {
         lightningCrud.saveAll(lightnings);
     }
 
-    public void deleteLightningsBefore(GregorianCalendar date){
+    public void deleteLightningsBefore(Calendar date){
         Iterable<Lightning> iterable = lightningCrud.findAll();
 
         List<Lightning> allLightnings = StreamSupport
