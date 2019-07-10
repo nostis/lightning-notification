@@ -21,4 +21,6 @@ public class Customer {
         this.email = email;
         this.location = location;
     }
+
+    public Customer() {}
 }

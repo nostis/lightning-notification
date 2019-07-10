@@ -2,10 +2,8 @@ package com.nostis.lightning_core.controller;
 
 import com.nostis.lightning_core.model.Customer;
 import com.nostis.lightning_core.service.CustomerService;
-import com.nostis.rest_api.exception.AccessDeniedException;
 import com.nostis.rest_api.service.JwtUserDetailsService;
 import com.nostis.rest_api.util.JwtTokenUtil;
-import io.jsonwebtoken.MalformedJwtException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,5 +25,10 @@ public class LightningController {
         String username = jwtTokenUtil.getUsernameFromToken(authorization.substring(7));
 
         return customerService.addCustomer(customer.getEmail(), customer.getLocation());
+    }
+
+    @DeleteMapping("/removecustomer/{email}")
+    public String removeCustomer(@RequestHeader String authorization, @PathVariable("email") String email) {
+        return customerService.removeCustomer(email);
     }
 }

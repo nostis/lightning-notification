@@ -4,8 +4,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.nostis.lightning_core.dao.CustomerCrud;
 import com.nostis.lightning_core.model.Customer;
-import com.nostis.rest_api.model.ClientAPI;
 import com.nostis.rest_api.service.ClientAPIService;
 import com.nostis.rest_api.service.JwtUserDetailsService;
 import com.nostis.rest_api.util.JwtTokenUtil;
@@ -26,7 +26,6 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -54,13 +53,16 @@ public class LightningControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
+    @Autowired
+    private CustomerCrud customerCrud;
+
     @Before
     public void setUp() {
         clientAPIService.addClient("api_client", "password", true);
     }
 
     @Test
-    public void whenAddCustomer_thenAddCustomer() throws Exception {
+    public void whenAddCustomer_thenAddCustomerAndReturnCustomer() throws Exception {
         String token = getTokenForUser("api_client");
 
 
@@ -92,7 +94,59 @@ public class LightningControllerTest {
                 .content(customerJson))
                 .andDo(print())
                 .andExpect(status().isInternalServerError());
+    }
 
+    @Test
+    public void whenAddCustomerWithAlreadyExistingEmail_thenThrowException() throws Exception {
+        Customer customerOne = new Customer("email", new ArrayList<>(Arrays.asList(5F, 5F)));
+        Customer customerTwo = new Customer("email", new ArrayList<>(Arrays.asList(5F, 5F)));
+        customerCrud.save(customerOne);
+
+        String token = getTokenForUser("api_client");
+
+        String customerTwoJson = mapObjectToJson(customerTwo);
+
+        String error = mockMvc.perform(post(PRE_URL + "/addcustomer")
+                .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", "Bearer " + token)
+                .content(customerTwoJson))
+                .andDo(print())
+                .andExpect(status().isConflict())
+                .andReturn().getResolvedException().getMessage();
+
+        Assert.assertTrue(error.contains("Customer with email 'email' already exists"));
+    }
+
+    @Test
+    public void whenRemoveCustomer_thenReturnEmail() throws Exception {
+        String token = getTokenForUser("api_client");
+
+        Customer customer = new Customer("email", new ArrayList<>(Arrays.asList(5F, 5F)));
+
+        customerCrud.save(customer);
+
+        String returned = mockMvc.perform(delete(PRE_URL + "/removecustomer/{email}", "email")
+                .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", "Bearer " + token))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+
+        Assert.assertTrue(returned.contains("email"));
+    }
+
+    @Test
+    public void whenRemoveNotExistingCustomer_thenThrowException() throws Exception {
+        String token = getTokenForUser("api_client");
+
+        String error = mockMvc.perform(delete(PRE_URL + "/removecustomer/{email}", "notexists")
+                .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", "Bearer " + token))
+                .andDo(print())
+                .andExpect(status().isNotFound())
+                .andReturn().getResolvedException().getMessage();
+
+        Assert.assertTrue(error.contains("Customer with email 'notexists' not exists"));
     }
 
     private String getTokenForUser(String username) {
