@@ -5,6 +5,7 @@ import com.nostis.lightning_core.service.CustomerService;
 import com.nostis.rest_api.exception.AccessDeniedException;
 import com.nostis.rest_api.service.JwtUserDetailsService;
 import com.nostis.rest_api.util.JwtTokenUtil;
+import io.jsonwebtoken.MalformedJwtException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,11 +26,6 @@ public class LightningController {
     public Customer addCustomer(@RequestHeader String authorization, @RequestBody Customer customer) {
         String username = jwtTokenUtil.getUsernameFromToken(authorization.substring(7));
 
-        if(jwtTokenUtil.validateToken(authorization, jwtUserDetailsService.loadUserByUsername(username))) {
-            return customerService.addCustomer(customer.getEmail(), customer.getLocation());
-        }
-        else {
-            throw new AccessDeniedException("Something is wrong with your token");
-        }
+        return customerService.addCustomer(customer.getEmail(), customer.getLocation());
     }
 }
