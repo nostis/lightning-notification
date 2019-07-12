@@ -6,10 +6,16 @@ import com.nostis.lightning_core.service.LightningService;
 import com.nostis.lightning_core.soap_api_client.SoapClientLightnings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
+@Component
 public class FetchData {
+
+    @Autowired
+    private NotificationSender notificationSender;
 
     @Autowired
     private CustomerService customerService;
@@ -18,7 +24,10 @@ public class FetchData {
     private LightningService lightningService;
 
     @Scheduled(fixedRate = 60000)
+    @Transactional
     public void updateLightnings() {
+        lightningService.deleteAllLightnings();
+
         List<Lightning> lightningsToAdd = new ArrayList<>();
 
         customerService.getAllCustomers().forEach(c -> {
@@ -36,13 +45,7 @@ public class FetchData {
         });
 
         lightningService.saveLightnings(lightningsToAdd);
-    }
 
-    @Scheduled(fixedDelay = 60000)
-    public void removeUnnecessaryLightnings() {
-        Calendar actualMinusThirtyMin = Calendar.getInstance();
-        actualMinusThirtyMin.set(Calendar.MINUTE, actualMinusThirtyMin.get(Calendar.MINUTE) - 30);
-
-        lightningService.deleteLightningsBefore(actualMinusThirtyMin);
+        notificationSender.sendNotification();
     }
 }

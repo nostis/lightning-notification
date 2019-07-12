@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -39,5 +38,15 @@ public class LightningService {
         return StreamSupport
                 .stream(lightningCrud.findAll().spliterator(), false)
                 .count();
+    }
+
+    public List<Lightning> getAllLightnings() {
+        return StreamSupport
+                .stream(lightningCrud.findAll().spliterator(), false)
+                .collect(Collectors.toList());
+    }
+
+    public void deleteAllLightnings() {
+        lightningCrud.deleteAll();
     }
 }
