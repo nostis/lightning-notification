@@ -1,7 +1,7 @@
 # lightning-notification
 Application to send notifications about storm in given area
 
-* API available at: http://nostis.heliohost.org/lightning/
+* API available at: https://nostis.heliohost.org/lightning/
 * If you want API access (gathering token, and sending queries) mail to me at **lightning.notification@gmail.com**. Send me your name/nickname and I will create account for you.
 * API description:
   * /api/authenticate - used to obtain token (175 characters) and expiration time(token expires after 5 hours, to count how much time you have: get epoch time in seconds and substract expiration - you will get remaining time in seconds)
@@ -14,7 +14,7 @@ Application to send notifications about storm in given area
   * /lightning/removecustomer - used to remove customer - you need token to do that
 
   ---
-  * Info: In Authorization: Bearer <token> - after Bearer **must** be one space
+  * Info: In Authorization: Bearer <token> - after Bearer **must** be one space | **Only** https will work
 
 * REST API access:
   * /**api**
