@@ -34,7 +34,7 @@ public class JwtAuthenticationController {
         final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getName());
 
         final String token = jwtTokenUtil.generateToken(userDetails);
-        final Long expiration = jwtTokenUtil.getExpirationDateFromToken(token).getTime() / 100;
+        final Long expiration = jwtTokenUtil.getExpirationDateFromToken(token).getTime() / 1000;
 
         return new JwtResponse(token, expiration.toString());
     }
