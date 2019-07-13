@@ -2,6 +2,7 @@
 Application to send notifications about storm in given area
 
 * API available at: http://nostis.heliohost.org/lightning/
+* If you want API access (gathering token, and sending queries) mail to me at **lightning.notification@gmail.com**. Send me your name/nickname and I will create account for you.
 * API description:
   * /api/authenticate - used to obtain token (175 characters) and expiration time(token expires after 5 hours, to count how much time you have: get epoch time in seconds and substract expiration - you will get remaining time in seconds)
   * /api/register - used to register new API clients - you need token, and you need to be admin to do that
